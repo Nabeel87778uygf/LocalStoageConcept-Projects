@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List</title>
+</head>
+
+<body>
+    <input type="text" id="input-text" placeholder="Enter something..." />
+    <button onclick="addTask()">Add Task</button>
+    <div id="result"></div>
+
+    <script>
+        let input = document.getElementById("input-text");
+        let result = document.getElementById("result");
+
+        function addTask() {
+            // let data = JSON.parse(localStorage.getItem("tasks")) || [];
+            let newTask = {
+                input: input.value
+            };
+
+            let data = JSON.parse(localStorage.getItem("tasks")) || [];
+            data.push(newTask);
+
+            localStorage.setItem("tasks", JSON.stringify(data));
+
+            input.value = "";
+
+            showTask();
+        }
+
+        function showTask() {
+            let data = JSON.parse(localStorage.getItem("tasks")) || [];
+
+            result.innerHTML = "";
+
+            data.forEach((task, index) => {
+                result.innerHTML += `
+                    <div>
+                        <strong>${index + 1}</strong>: ${task.input}
+                        <button onclick="removeTask()">Remove</button>
+                    </div>
+                `;
+            });
+        }
+
+        function removeTask(index) {
+            let data = JSON.parse(localStorage.getItem("tasks"));
+            data.splice(index, 1);
+            localStorage.setItem("tasks", JSON.stringify(data));
+            showTask();
+
+        }
+
+        showTask();
+    </script>
+</body>
+
+</html>

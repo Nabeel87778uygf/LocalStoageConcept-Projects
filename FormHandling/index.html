@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Handling</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+
+        .container {
+            background: #fff;
+            padding: 30px;
+            width: 350px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            outline: none;
+            font-size: 14px;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.5);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 6px;
+            background: #667eea;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #5a67d8;
+        }
+
+        #result {
+            margin-top: 20px;
+        }
+
+        #result div {
+            background: #f4f6ff;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            border-left: 4px solid #667eea;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form>
+            <h1>FORM CONCEPT</h1>
+
+            Name: <input type="text" id="name" placeholder="enter your name" required /><br><br>
+            Age: <input type="number" id="age" placeholder="enter your age " required /><br><br>
+            City: <input type="text" id="city" placeholder="enter your city" required /><br><br>
+            Email: <input type="email" id="email" placeholder="enter your email" required /><br><br>
+
+            <select id="country">
+                <option value="">Select Country</option>
+                <option>Pakistan</option>
+                <option>India</option>
+                <option>UAE</option>
+                <option>Saudi Arabia</option>
+            </select>
+
+
+            <button onclick="SaveData()">Save Data</button>
+        </form>
+        <button onclick="removeData()">Remove All Data</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        // DOM elements
+        let name = document.getElementById("name");
+        let age = document.getElementById("age");
+        let city = document.getElementById("city");
+        let email = document.getElementById("email");
+        let country = document.getElementById("country");
+        let result = document.getElementById("result");
+
+        // Save new user data
+        function SaveData() {
+            let userList = JSON.parse(localStorage.getItem("userData")) || [];
+
+            let user = {
+                name: name.value,
+                age: age.value,
+                city: city.value,
+                email: email.value,
+                country: country.value
+            };
+
+            userList.push(user);
+
+            localStorage.setItem("userData", JSON.stringify(userList));
+
+            ShowUsers();
+
+            // Clear form fields after saving
+            name.value = "";
+            age.value = "";
+            city.value = "";
+            email.value = "";
+            country.value = "";
+        }
+
+        // Display all users
+        function ShowUsers() {
+            let Data = JSON.parse(localStorage.getItem("userData")) || [];
+
+            result.innerHTML = "";
+
+            Data.forEach((person, index) => {
+
+                result.innerHTML += `
+                    <div>
+                        <strong>${index + 1}</strong><br>
+                        Name: ${person.name}<br>
+                        Age: ${person.age}<br>
+                        City: ${person.city}<br>
+                        Email: ${person.email}<br>
+                        Country: ${person.country}
+                        <button onclick="removeSingleUser(${index})">Remove Data</button>
+                    </div>
+                `;
+                
+            });
+        }
+        ShowUsers();
+
+        function removeSingleUser(index) {
+            let Data = JSON.parse(localStorage.getItem("userData")) || [];
+            Data.splice(index, 1);
+            localStorage.setItem("userData", JSON.stringify(Data));
+            ShowUsers();
+        }
+
+        // Remove all data
+        function removeData() {
+            localStorage.removeItem("userData");
+            result.innerHTML = "";
+        }
+
+        // Show data on page load
+        ShowUsers();
+    </script>
+</body>
+
+</html>
