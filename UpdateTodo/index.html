@@ -6,27 +6,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To Do List</title>
 </head>
+<link rel="stylesheet" href="./style.css" />
 
 <body>
+    <h1>My To-Do List</h1>
 
-    <input type="text" id="input-text" placeholder="Enter something..." />
-    <button onclick="addTask()">Add Task</button>
+    <div class="input-container">
+        <input type="text" id="input-text" placeholder="Enter something..." />
+        <button id="add-btn" onclick="addTask()">Add Task</button>
+    </div>
+
+
     <div id="result"></div>
 
     <script>
         let input = document.getElementById("input-text");
         let result = document.getElementById("result");
+        let addBtn = document.getElementById("add-btn");
+
+        let editIndex = null;
 
         function addTask() {
             if (input.value.trim() === "") {
                 alert("Please enter a task");
                 return;
             }
-
-            let newTask = { name: input.value };
             let data = JSON.parse(localStorage.getItem("tasks")) || [];
-            data.push(newTask);
 
+            if (editIndex !== null) {
+                data[editIndex].name = input.value;
+                editIndex = null;
+                addBtn.textContent = "Add Task";
+            } else {
+                let newTask = {
+                    name: input.value
+                };
+                data.push(newTask);
+            }
+
+
+            // let newTask = {
+            //     name: input.value
+            // };
+
+            // let data = JSON.parse(localStorage.getItem("tasks")) || [];
+
+            // data.push(newTask);
             localStorage.setItem("tasks", JSON.stringify(data));
 
             input.value = "";
@@ -41,8 +66,9 @@
             data.forEach((task, index) => {
                 result.innerHTML += `
         <div>
-            <strong>${index + 1}</strong> : ${task.name}
-            <button onclick="removeTask(${index})">Remove</button>
+            <strong>${index + 1}</strong> ${task.name}
+            <button class="edit-btn"   onclick="EditTask (${index})">Edit</button>
+            <button  class="remove-btn"  onclick="removeTask(${index})">Remove</button>
         </div>
         `;
             });
@@ -53,6 +79,16 @@
             data.splice(index, 1);
             localStorage.setItem("tasks", JSON.stringify(data));
             showTasks();
+        }
+
+        function EditTask(index) {
+            let data = JSON.parse(localStorage.getItem("tasks")) || [];
+            input.value = data[index].name;
+            // data[index].name = input.value;
+            addBtn.textContent = "update Task";
+            editIndex = index;
+
+
         }
 
         // Show tasks on page load

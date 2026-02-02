@@ -1,0 +1,163 @@
+/* ====== Reset ====== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #e0e5ec;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    flex-direction: column;
+    padding: 20px;
+}
+
+
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 2rem;
+}
+
+
+.input-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 30px;
+    width: 100%;
+    max-width: 450px;
+}
+
+#input-text {
+    flex: 1;
+    min-width: 200px;
+    max-width: 300px;
+    padding: 12px 15px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    outline: none;
+    transition: 0.3s;
+}
+
+#input-text:focus {
+    border-color: #6c63ff;
+    box-shadow: 0 0 8px rgba(108, 99, 255, 0.5);
+}
+
+#add-btn {
+    padding: 12px 25px;
+    font-size: 16px;
+    border: none;
+    background-color: #6c63ff;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    white-space: nowrap;
+}
+
+#add-btn:hover {
+    background-color: #574fd6;
+    transform: scale(1.05);
+}
+
+
+#result {
+    width: 400px;
+    max-width: 95vw;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+
+#result div {
+    background-color: #ffffff;
+    padding: 12px 15px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: fadeIn 0.4s forwards;
+    transition: 0.3s;
+}
+
+#result div:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+
+#result span {
+    flex-grow: 1;
+    cursor: pointer;
+}
+
+
+#result button {
+    padding: 6px 12px;
+    margin-left: 8px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 14px;
+}
+
+#result button:hover {
+    transform: scale(1.1);
+}
+
+#result button.edit-btn {
+    background-color: green;
+    color: white;
+}
+
+#result button.remove-btn {
+    background-color: red;
+    color: white;
+}
+
+
+.completed {
+    text-decoration: line-through;
+    color: gray;
+    opacity: 0.7;
+}
+
+
+
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ====== Responsive ====== */
+@media (max-width: 500px) {
+    .input-container {
+        flex-direction: column;
+        gap: 10px;
+        width: 90%;
+    }
+
+    #input-text,
+    #add-btn {
+        width: 100%;
+    }
+}
