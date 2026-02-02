@@ -8,6 +8,7 @@
 </head>
 
 <body>
+
     <input type="text" id="input-text" placeholder="Enter something..." />
     <button onclick="addTask()">Add Task</button>
     <div id="result"></div>
@@ -18,50 +19,46 @@
 
         function addTask() {
             if (input.value.trim() === "") {
-                window.alert("Add your task compulsory");
+                alert("Please enter a task");
                 return;
             }
 
-            // let data = JSON.parse(localStorage.getItem("tasks")) || [];
-            let newTask = {
-                input: input.value
-            };
-
+            let newTask = { name: input.value };
             let data = JSON.parse(localStorage.getItem("tasks")) || [];
             data.push(newTask);
 
             localStorage.setItem("tasks", JSON.stringify(data));
 
             input.value = "";
-
-            showTask();
+            showTasks();
         }
 
-        function showTask() {
+        function showTasks() {
             let data = JSON.parse(localStorage.getItem("tasks")) || [];
 
-            result.innerHTML = "";
+            result.innerHTML = ""; // Clear old tasks
 
             data.forEach((task, index) => {
                 result.innerHTML += `
-                    <div>
-                        <strong>${index + 1}</strong>: ${task.input}
-                        <button onclick="removeTask()">Remove</button>
-                    </div>
-                `;
+        <div>
+            <strong>${index + 1}</strong> : ${task.name}
+            <button onclick="removeTask(${index})">Remove</button>
+        </div>
+        `;
             });
         }
 
         function removeTask(index) {
-            let data = JSON.parse(localStorage.getItem("tasks"));
+            let data = JSON.parse(localStorage.getItem("tasks")) || [];
             data.splice(index, 1);
             localStorage.setItem("tasks", JSON.stringify(data));
-            showTask();
-
+            showTasks();
         }
 
-        showTask();
+        // Show tasks on page load
+        showTasks();
     </script>
+
 </body>
 
 </html>
