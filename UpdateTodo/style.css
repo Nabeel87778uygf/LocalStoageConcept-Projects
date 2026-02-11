@@ -122,12 +122,12 @@ h1 {
 }
 
 #result button.edit-btn {
-    background-color: green;
+    background-color: #2fff28;
     color: white;
 }
 
 #result button.remove-btn {
-    background-color: red;
+    background-color: #ff5252;
     color: white;
 }
 
